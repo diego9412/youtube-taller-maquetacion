@@ -1,0 +1,733 @@
+/* DRY --> DON`TREPEAT YOURSELF */
+
+/********** Custom Properties **********/
+:root {/*Para establecer las variables o style guides del proyecto*/
+    --first-color: #D90062;
+    --first-alpha-color: rgba(217, 0, 98, 0.75);
+    --second-color: #14192D;
+    --second-alpha-color: rgba(20, 25, 45, 0.75);
+    --third-color: #501464;
+    --third-alpha-color: rgba(80, 20, 100, 0.75);
+    --White-color: #ffffff;
+    --Gray-light-color: #F3F3F3;
+    --Gray-color: #CCCCCC;
+    --Gray-dark-color: #666666;
+    --Black-color: #000000;
+    --Link-color: #509EE3;
+    --Title-color: #333333;
+    --Text-color: #222222;
+    --White-alpha-color: rgba(255, 255, 255, 0.5);
+    --Dark-alpha-color: rgba(0, 0, 0, 0.6);
+    --font: 'Raleway', sans-serif;
+    --max-width: 1200px;
+    --header-height: 4rem;
+    --carousel-bg-color: rgba(255, 255, 255, 0.2);
+}
+
+/********** Reset **********/
+html {
+    box-sizing: border-box;
+    font-family: var(--font);
+    font-size: 16px; /*Selector raiz, para que al usar los REMs me cuente desde los 16px*/
+    scroll-behavior: smooth;
+}
+*,
+*::after,
+*::before {
+    box-sizing: inherit;
+}
+
+body {
+    margin: 0;
+    overflow-x: hidden; /*Evita la barra de despalzamiento inferior - horizontal*/
+    color: var(--Text-color);
+}
+
+a {
+    color: var(--Link-color);
+    transition: all 0.5s ease-outs;
+    text-decoration: none;
+}
+a:hover  {
+    opacity: 0.75;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+h1 {
+    font-size: 2rem;
+}
+h2 {
+    font-size: 1.5rem;
+}
+h3 {
+    font-size: 1.25rem;
+}
+h4 {
+    font-size: 1rem;
+}
+h5 {
+    font-size: 0.85rem;
+}
+h6 {
+    font-size: 0.7rem;
+}
+
+img {
+    max-width: 100%;
+    height: auto;             
+}
+
+p {
+    line-height: 1.6;
+}
+
+/********** Components **********/
+
+/* Carousel */
+
+/* Animacion automatica al carousel */
+@keyframes carousel-slide {
+    0% {
+        transform: translateX(0%);
+    }
+
+    25% {
+        transform: translateX(-25%);
+    }
+
+    50% {
+        transform: translateX(-50%);
+    }
+
+    75% {
+        transform: translateX(-75%);
+    }
+}
+
+.carousel {
+    margin: 2rem auto;
+    padding: 2rem 0;
+    max-width: 800px;
+    text-align: center;
+    background-color: var(--Gray-light-color);
+    overflow-x: hidden;
+}
+
+.carousel input {
+    display: none;
+}
+
+.carousel label {
+    display: inline-block;
+    width: .75rem;
+    height: .75rem;
+    border: medium solid var(--Gray-dark-color);
+    cursor: pointer;
+    border-radius: 50%;
+    margin: 0 .25rem;
+}
+
+.carousel .slides {
+    /* Por cada slide que tenga mi carousel tengo que umarle un 100% al ancho. 400% */
+    width: 400%;
+    display: flex;
+    list-style: none;
+    padding-left: 0;
+    /*Para que se vea centrado el contenido*/
+    transition: transform .5s ease-in-out;
+    /* Para la animaci{on automatica */
+    animation: carousel-slide 12s ease-in-out; /*12s para que la transicion entre cada slide sea de 3s, si le ponemos infinite, deja de funcionar maanual*/
+}
+
+/* El traslate tambien se debe dividir por el numero de slides del 100% */
+#slide-1:checked ~ .slides {/*Por eso subimos los inputs, los hermanos deben estar despues del elemento y el simbolo ~ hace referencia a mover el siguiente hermano */
+    transform: translateX(0%);
+}
+
+#slide-2:checked ~ .slides {
+    transform: translateX(-25%);
+}
+
+#slide-3:checked ~ .slides {
+    transform: translateX(-50%);
+}
+
+#slide-4:checked ~ .slides {
+    transform: translateX(-75%);
+}
+
+#slide-1:checked~.slides-nav label#dot-1,
+#slide-2:checked~.slides-nav label#dot-2,
+#slide-3:checked~.slides-nav label#dot-3,
+#slide-4:checked~.slides-nav label#dot-4 {
+    background-color: var(--Gray-dark-color);
+}
+
+/* Contact Form */
+.contact-form {
+    margin: 2rem auto;
+    padding: 1rem;
+    max-width: 800px;
+}
+
+.contact-form > * {
+    padding: .5rem;
+    margin: 1rem auto;
+    display: block;
+    width: 100%;
+}
+
+.contact-form input,
+.contact-form textarea {
+    font-size: .85rem;
+    font-family: var(--font);
+}
+
+.contact-form input {
+    border: 0;
+    border-bottom: thin solid var(--Gray-dark-color);
+    padding-left: 0;
+}
+
+.contact-form textarea {
+    border: thin solid var(--Gray-dark-color);
+    resize: none; /*Desaparecer el modificador del textarea*/
+}
+
+.contact-form input[type="submit"] {
+    margin-top: 0;
+    cursor: pointer;
+    transition: all .5s ease-out;
+}
+
+.contact-form input[type="submit"]:hover {
+    opacity: .75;
+}
+
+.contact-form *::placeholder {
+    color: var(--Gray-dark-color);
+}
+
+.contact-form-response {
+    padding: 1rem;
+    background-color: var(--White-color);
+    width: 400px;
+    text-align: center;
+}
+
+.contact-form-response svg {
+    margin-top: 2rem;
+    fill: var(--first-color);
+    width: 4rem;
+    height: 4rem;
+}
+
+.modal#gracias:target {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+@media screen and (min-width: 1024px) {
+    .contact-form {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 1rem;
+    }
+    .contact-form textarea,
+    .contact-form .contact-form-loader {
+        grid-column: span 2;
+    }
+
+    .contact-form input[type="submit"] {
+        margin-left: 0;
+    }
+}
+
+/* HeroImage */
+.hero-image {
+    background-image: var(--image);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: var(--hero-attachment);
+}
+.hero-image-opacity {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--opacity-color);
+    text-align: center;
+}
+.hero-image-title {
+    font-size: 6.5vw;
+    color: var(--hero-text-color);
+}
+
+/********** Menu **********/
+.menu {
+    position: fixed; /*Al ser position fixed pierde propiedades de ancho y alto. */
+    width: 100%;
+    left: 0;
+    bottom: var(--header-height);
+    background-color: var(--second-color);
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; *//*Al usar estos elementos se reduce el background a linea*/
+    /* Para el comportamiento dinamico de Js iniciamos con una opcidad 0 */
+    opacity: 0;
+    pointer-events: none; /*Para que no se visualize la mano al pasar por este*/
+    transition: opacity .5s ease;
+}
+/* Comportamiento con el Script */
+.menu.is-active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.menu a {
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--first-color);
+    text-align: center;
+}
+.menu a:hover {
+    background-color: var(--first-color);
+    color: var(--White-color);
+}
+@media screen and (min-width: 1024px) {
+    .menu-btn {
+        display: none;
+    }
+    .menu {
+        position: static;
+        opacity: 1;
+        pointer-events: auto;
+        flex-direction: row;
+        width: auto;
+    }
+    .menu a {
+        padding: 0;
+        margin-right: 1rem;
+    }
+    .menu a:last-child {
+        margin-right: 0;
+    }
+    .menu a:hover {
+        background-color: transparent;
+        color: var(--White-color);
+    }
+    
+} 
+
+.menu-btn {
+    outline: thin solid var(--first-color); /*Resetear el borde del botón*/
+    border: 0;
+    background-color: var(--second-color);
+    cursor: pointer;
+}
+.menu-btn svg {
+    fill: var(--first-color); /*Para los SVG, cambiar su color*/
+}
+
+/********** Modal ***********/
+.modal {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: var(--Dark-alpha-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 1s;
+}
+
+.modal-content {
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.modal-close svg {
+    width: 3rem;
+    height: 3rem;
+    fill: var(--first-color);
+}
+
+.modal[id|="trabajo"]:target { /*Nos ahorra escribir cada uno de los modales. Que abra con el target cada uno de los trabajos. Nos evita el uso de Js*/
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/********** Progress Bar ***********/
+progress {
+    width: 100%;
+    height: 1rem;
+    background-color: var(--Gray-color);
+}
+progress::-webkit-progress-bar {
+    background-color: var(--Gray-color);
+}
+progress::-webkit-progress-value {
+    background-color: var(--Gray-dark-color);
+}
+progress::-moz-progress-bar {
+    background-color: var(--Gray-dark-color);
+}
+
+.progress {
+    margin: 1rem auto;
+}
+.progress > p {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
+/********** Utilities **********/
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.bg-gray-light {
+    background-color: var(--Gray-light-color);
+}
+
+.box-shadow-1 {
+    box-shadow: 0.25rem 0.25rem 1rem rgba(0, 0, 0, 0.25);
+}
+
+.btn {
+    border-radius: .5rem;
+    padding: 1rem;
+    display: inline-block;
+    width: 200px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: var(--White-color);
+    background-color: var(--first-color);
+    text-transform: uppercase;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: var(--max-width);
+}
+
+.gray-scale {
+    filter: grayscale(1);
+}
+
+.image-center {
+    display: block;
+    margin: 0 auto;
+}
+
+.none {
+    display: none;
+}
+
+.section {
+    padding: 2rem 1rem;
+}
+
+.section-title {
+    border-top: thin solid var(--first-color);
+    border-bottom: thin solid var(--first-color);
+    width: 250px;
+    text-align: center;
+    margin: 2rem auto;
+    padding: .5rem 1rem;
+    color: var(--Title-color);
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-first-color {
+    color: var(--first-color);
+    text-transform: uppercase;
+}
+
+@media screen and (min-width: 1024px) {
+    .full-lg-screen {
+        width: 100%;
+        min-height: 100vh;
+    }
+    .text-lg-left {
+        text-align: left;
+    }
+
+    .text-lg-center {
+        text-align: center;
+    }
+
+    .text-lg-right {
+        text-align: right;
+    }
+}
+
+
+/********** Site Styles **********/
+.about article {
+    margin-bottom: 2rem;
+}
+
+.contact-card {
+    margin: 1rem auto;
+    padding: 1rem;
+    width: 100%;
+    height: 144px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.contact-card > svg {
+    fill: var(--first-color);
+    width: 2rem;
+    height: 2rem;
+}
+
+.contact-card > small {
+    margin-top: -1rem;
+}
+
+.header {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 999;
+    width: 100%;
+    height: var(--header-height);
+    background-color: var(--second-color);
+    padding: 1rem;
+}
+
+.header > .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hero-image-content {
+    width: 100%;
+    min-width: 320px;
+}
+
+.logo a {
+    color: var(--first-color);
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.portfolio-card {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+}
+
+.portfolio-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /*Evitar que se deforme la proporci{on de la imagen*/
+}
+
+.portfolio-card-info {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--first-alpha-color);
+    color: var(--White-color);
+    padding: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .5s ease-in-out;
+}
+
+.portfolio-card:hover .portfolio-card-info {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.portfolio-card-info > div {
+    padding: 1rem;
+    border: thin solid var(--White-color);
+    width: 100%;
+    height: 100%;
+}
+
+.portfolio-modal {
+    background-color: var(--White-color);
+    padding: 1rem;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.portfolio-info h3 {
+    border-bottom: medium solid var(--first-color);
+    text-transform: uppercase;
+    padding: 0.5rem 0;
+    margin: 1rem auto;
+    color: var(--Title-color);
+}
+
+.portfolio-details {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    grid-auto-rows: 2rem; /*Darle un tamaño especifico a las filas*/
+}
+
+.portfolio-details b {
+    text-transform: uppercase;
+    color: var(--first-color);
+}
+
+.service-card {
+    margin: 1rem auto;
+    padding: 1rem;
+    text-align: center;
+}
+
+.service-card svg {
+    fill: var(--first-color);
+    margin-bottom: 1.25rem;
+}
+
+.service-card h3 {
+    color: var(--Title-color);
+}
+
+.social-media a {
+    /* text-decoration: none; */
+    padding: 0 0.4rem;
+}
+
+.social-media svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.footer {
+    margin-bottom: var(--header-height);
+    background-color: var(--third-color);
+    padding: 1rem;
+    color: var(--White-color);
+    text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+
+    .contact-cards {
+        display: grid;
+        grid-template-columns: repeat(2, 48%);
+        justify-content: space-between;
+    }
+
+    .portfolio .container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        /* justify-content: space-between; */
+        /* align-items: center; */
+    }
+
+    .portfolio .section-title {
+        grid-column: span 2;
+    }
+
+    .portfolio-modal {
+        max-width: 800px;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .portfolio-info {
+        margin-left: 1rem;
+    }
+
+    .services > .container {
+        display: grid;
+        grid-template-columns: repeat(2, 45%);
+        justify-content: space-between;
+        align-content: center;
+    }
+
+    .services .section-title {
+        grid-column: span 2;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+
+    .contact-cards {
+        grid-template-columns: repeat(4, 24%);
+    }
+
+    .about {
+        display: grid;
+        grid-template-columns: repeat(3, 30%);
+        justify-content: space-between;
+        align-content: center;
+    }
+
+    .footer {
+        margin-bottom: 0;
+    }
+    
+    .header {
+        position: sticky; /*Mezcla posicionamiento relativo y fijo, se comporta como elemento fijo cuando llega a la altura definida. No tapa el contenido*/
+        top: 0;
+        padding: .5rem;
+        height: calc(var(--header-height) - 0.5rem); /*Centrado proporcionalmente*/
+    }
+
+    .portfolio .container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .portfolio .section-title {
+        grid-column: span 3;
+    }
+
+    .services>.container {
+        grid-template-columns: repeat(3, 30%);
+        align-content: center;
+    }
+
+    .services .section-title {
+        grid-column: span 3;
+    }
+}
